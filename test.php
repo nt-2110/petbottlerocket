@@ -10,19 +10,9 @@ if(!empty($_GET['url'])){
 	ini_set( 'display_errors',1 );
 	$flag = 0;
 	$url=$_GET['url'];
-	if(strstr($url,".php")){
-		if(file_exists("./".$url)){
-			$flag = 1;
-		}
-	}else if(strstr($url,".")){
+	if(!strstr($url,".php")){
 		print "phpのページではないので終了しました。<br>\n";
 	}else{
-		if(file_exists("./".$url.".php")){
-			$url = $url.".php";
-			$flag = 1;
-		}
-	}
-	if($flag == 1){
 		$str = file("./".$url);
 		print "<br><br>\n";
 		require $url;
