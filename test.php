@@ -8,7 +8,6 @@
 if(!empty($_GET['url'])){
 	print "以下でphpの動作をテストします。\n<br>\n";
 	ini_set( 'display_errors',1 );
-	$flag = 0;
 	$url=$_GET['url'];
 	if(!strstr($url,".php")){
 		print "phpのページではないので終了しました。<br>\n";
