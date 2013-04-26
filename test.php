@@ -12,32 +12,45 @@ if(!empty($_GET['url'])){
 	$url=$_GET['url'];
 	if(strstr($url,".php")){
 		if(file_exists("./".$url)){
-			$flag=1;
+			$flag = 1;
 		}
 	}else if(strstr($url,".")){
 		print "phpのページではないので終了しました。<br>\n";
 	}else{
 		if(file_exists("./".$url.".php")){
-			$url=$url.".php";
-			$flag=1;
+			$url = $url.".php";
+			$flag = 1;
 		}
 	}
-	if($flag==1){
-		$str=file("./".$url);
-		echo "<br><br>\n";
+	if($flag == 1){
+		$str = file("./".$url);
+		print "<br><br>\n";
 		require $url;
-		echo "<br><br>\n";
+		print "<br><br>\n";
 		foreach($str as $i => $line){
-			$line=str_replace("<","&lt;",$line);
-			echo $line."<br>\n";
+			$line = str_replace("<","&lt;",$line);
+			print $line."<br>\n";
 		}
 	}
 	print "<br><br>\n";
 }
 ?>
-ファイル名を入力することで、PHPのバグチェックをします。<br>
-<form method=GET action=./test.php>
-<input type=text name=url>
+下のファイル名を選択することで、PHPのバグチェックをします。<br>
+※同じディレクトリにファイルが存在しない場合は、チェックができません。
+<form method=GET action=<?php print $_SERVER['PHP_SELF']?>>
+<select name=url>
+<?php
+if ($handle = opendir("./")) {
+	while (false !== ($file = readdir($handle))) {
+		if(substr($file,0,1) == "."){
+		}else if($file !== basename($_SERVER['PHP_SELF'])){
+		print "<option value=".$file.">".$file."</option>\n";
+		}
+	}
+	closedir($handle);
+}
+?>
+</select>
 <br>
 <input type=submit value=入力したURLのPHPの動作を確認する>
 </form>
